@@ -26,7 +26,7 @@ class EditUserComponent extends Component {
                 let user = res.data.result;
                 this.setState({
                 id: user.id,
-                username: user.username,
+                userName: user.userName,
                 firstName: user.firstName,
                 lastName: user.lastName,
                 age: user.age,
@@ -56,7 +56,7 @@ class EditUserComponent extends Component {
 
                     <div className="form-group">
                         <label>User Name:</label>
-                        <input type="text" placeholder="username" name="username" className="form-control" readonly="true" defaultValue={this.state.username}/>
+                        <input type="text" placeholder="userName" name="userName" className="form-control" readonly="true" defaultValue={this.state.userName}/>
                     </div>
 
                     <div className="form-group">

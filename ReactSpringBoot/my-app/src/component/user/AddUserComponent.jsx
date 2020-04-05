@@ -6,7 +6,7 @@ class AddUserComponent extends Component{
     constructor(props){
         super(props);
         this.state ={
-            username: '',
+            userName: '',
             password: '',
             firstName: '',
             lastName: '',
@@ -19,7 +19,7 @@ class AddUserComponent extends Component{
 
     saveUser = (e) => {
         e.preventDefault();
-        let user = {username: this.state.username, password: this.state.password, firstName: this.state.firstName, lastName: this.state.lastName, age: this.state.age, salary: this.state.salary};
+        let user = {userName: this.state.userName, password: this.state.password, firstName: this.state.firstName, lastName: this.state.lastName, age: this.state.age, salary: this.state.salary};
         ApiService.addUser(user)
             .then(res => {
                 this.setState({message : 'User added successfully.'});
@@ -37,7 +37,7 @@ class AddUserComponent extends Component{
                 <form>
                 <div className="form-group">
                     <label>User Name:</label>
-                    <input type="text" placeholder="username" name="username" className="form-control" value={this.state.username} onChange={this.onChange}/>
+                    <input type="text" placeholder="userName" name="userName" className="form-control" value={this.state.userName} onChange={this.onChange}/>
                 </div>
 
                 <div className="form-group">
