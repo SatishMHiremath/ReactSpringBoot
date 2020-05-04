@@ -75,6 +75,7 @@
 
 		</plugins>
 	</build> -->
+	<!--
 	<profiles>
 		<profile>
 			<id>local-deployment</id>
@@ -147,7 +148,7 @@
 							</execution>
 						</executions>
 					</plugin>
-					<!-- This little plugin is God-sent! This will place the packaged war 
+					<!-- This will place the packaged war 
 						file into you local JBOSS EAP's /standalone/deployments folder The only prerequisite 
 						is to ensure that you've JBOSS_HOME configured as an environment variable -->
 					<plugin>
@@ -177,6 +178,6 @@
 				</plugins>
 			</build>
 		</profile>
-	</profiles>
+	</profiles> -->
 
 </project>
