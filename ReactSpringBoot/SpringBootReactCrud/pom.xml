@@ -75,5 +75,108 @@
 
 		</plugins>
 	</build> -->
+	<profiles>
+		<profile>
+			<id>local-deployment</id>
+			<build>
+				<finalName>${project.artifactId}-${project.version}</finalName>
+				<plugins>
+					<plugin>
+						<groupId>com.github.eirslett</groupId>
+						<artifactId>frontend-maven-plugin</artifactId>
+						<version>1.7.6</version>
+						<configuration>
+							<workingDirectory>frontend</workingDirectory>
+							<installDirectory>target</installDirectory>
+						</configuration>
+						<executions>
+							<execution>
+								<id>install node and npm</id>
+								<goals>
+									<goal>install-node-and-npm</goal>
+								</goals>
+								<configuration>
+									<nodeVersion>v10.12.0</nodeVersion>
+									<npmVersion>6.4.1</npmVersion>
+								</configuration>
+							</execution>
+							<execution>
+								<id>npm install</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<configuration>
+									<arguments>install</arguments>
+								</configuration>
+							</execution>
+							<execution>
+								<id>npm run build</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<configuration>
+									<arguments>run build</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<!-- This plugin will copy the build folders of react frontend app to 
+						the static folder of the Spring Boot App -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>generate-resources</phase>
+								<configuration>
+									<target>
+										<!-- <copy todir="${project.build.directory}/${project.artifactId}-${project.version}/static"> -->
+										<copy todir="${project.build.directory}/classes/public">
+											<fileset dir="${project.basedir}/frontend/build" />
+											<!-- <fileset file="${project.basedir}/frontend/dist/index.html" 
+												/> -->
+											<!-- <fileset file="${project.basedir}/frontend/dist/favicon.ico" 
+												/> <fileset file="${project.basedir}/frontend/dist/static/bundle.js" /> <fileset 
+												file="${project.basedir}/frontend/dist/static/app.css" /> -->
+										</copy>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<!-- This little plugin is God-sent! This will place the packaged war 
+						file into you local JBOSS EAP's /standalone/deployments folder The only prerequisite 
+						is to ensure that you've JBOSS_HOME configured as an environment variable -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>copy-installed</id>
+								<phase>install</phase>
+								<goals>
+									<goal>copy</goal>
+								</goals>
+								<configuration>
+									<artifactItems>
+										<artifactItem>
+											<groupId>${project.groupId}</groupId>
+											<artifactId>${project.artifactId}</artifactId>
+											<version>${project.version}</version>
+											<type>${project.packaging}</type>
+										</artifactItem>
+									</artifactItems>
+									<outputDirectory>${env.JBOSS_HOME}/standalone/deployments</outputDirectory>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>
